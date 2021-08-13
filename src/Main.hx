@@ -1,24 +1,8 @@
 
 import Pos;
-import Entity;
+import Cadastre;
 
 
-
-
-enum Action {
-	Build(ent: Entity);
-	Move(to: Pos);
-	Attack(dir: Direction);
-}
-
-final class Command {
-	final action: Action;
-	final pos: Pos;
-	public function new(action, pos){
-		this.pos = pos;
-		this.action = action;
-	}
-}
 
 
 final class AsciiRenderer {
@@ -28,7 +12,7 @@ final class AsciiRenderer {
 		for (y in 0...field.size.y) {
 			var line = "";
 			for (x in 0...field.size.x) {
-				line += drawEntity(field.get(pos(x, y)));
+				line += drawEntity(field.get({x: x, y: y}));
 			}
 			if (y != 0){
 				out += "\n";
@@ -51,11 +35,11 @@ final class AsciiRenderer {
 class Main {
 	static public function main(): Void {
 		var player = new Player("Player1");
-		var field = Field.empty(pos(30, 30), Cadastre.square(5));
-		field.set(pos(2, 2), Keep(player));
-		field.set(pos(2, 0), WoodCutter);
-		field.set(pos(12,2), Keep(player));
-		field.set(pos(14,4), Raider);
+		var field = Field.empty({x: 30, y: 30}, Cadastre.square(5));
+		field.set({x: 2, y: 2}, Keep(player));
+		field.set({x: 2, y: 0}, Woodcutter);
+		field.set({x: 12,y: 2}, Keep(player));
+		field.set({x: 14,y: 4}, Raider);
 		
 		var out = AsciiRenderer.render(field);
 		

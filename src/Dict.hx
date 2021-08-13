@@ -2,17 +2,18 @@
 
 import haxe.ds.Option;
 import haxe.Serializer;
+import haxe.Unserializer;
 import haxe.ds.StringMap;
 
 
 class Dict<K, V> {
 	var map: StringMap<V>;
 	
-	function new(map: StringMap<V>){
+	private inline function new(map: StringMap<V>){
 		this.map = map;
 	}
 	
-	public static function empty() {
+	public inline static function empty<K, V>(): Dict<K, V> {
 		return new Dict(new StringMap());
 	}
 	
@@ -33,11 +34,22 @@ class Dict<K, V> {
 	}
 	
 	public function set(key: K, val: V) {
-		var keyStr = Serializer.run(key);
-		map.set(keyStr, val);
+		map.set(Serializer.run(key), val);
 	}
 	
-	public function copy(): Dict<K, V>{
+	public inline function has(key: K): Bool {
+		return map.exists(Serializer.run(key));
+	}
+	
+	public inline function remove(key: K): Bool {
+		return map.remove(Serializer.run(key));
+	}
+	
+	public inline function copy(): Dict<K, V> {
 		return new Dict(map.copy());
+	}
+	
+	public function keys(): Array<K> {
+		return [for (key in this.map.keys()) Unserializer.run(key)];
 	}
 }
