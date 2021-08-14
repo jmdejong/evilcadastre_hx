@@ -23,4 +23,5 @@ class TestUtest extends utest.Test {
 		var b: String = "hello";
 		Assert.equals(a, b);
 	}
+	
 }

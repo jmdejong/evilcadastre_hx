@@ -52,4 +52,8 @@ class Dict<K, V> {
 	public function keys(): Array<K> {
 		return [for (key in this.map.keys()) Unserializer.run(key)];
 	}
+	
+	public function isEmpty(): Bool {
+		return !map.iterator().hasNext();
+	}
 }

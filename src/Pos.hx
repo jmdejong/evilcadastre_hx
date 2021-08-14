@@ -7,13 +7,13 @@ enum Direction {North; East; South; West;}
 	public final y: Int;
 	
 	public function add(p: Pos): Pos {
-		return {x: this.x + p.x, y: this.y + p.y};
+		return {x: x + p.x, y: y + p.y};
 	}
 	public function mult(p: Pos): Pos {
-		return {x: this.x * p.x, y: this.y * p.y};
+		return {x: x * p.x, y: y * p.y};
 	}
 	public function div(p: Pos): Pos {
-		return {x: Std.int(this.x / p.x), y: Std.int(this.y / p.y)};
+		return {x: Std.int(x / p.x), y: Std.int(y / p.y)};
 	}
 	public function equals(p: Pos): Bool {
 		return x == p.x && y == p.y;
@@ -22,24 +22,28 @@ enum Direction {North; East; South; West;}
 	public function moved(dir: Direction): Pos {
 		return switch (dir) {
 			case North:
-				{x: this.x, y: this.y - 1}
+				{x: x, y: y - 1}
 			case South:
-				{x: this.x, y: this.y + 1}
+				{x: x, y: y + 1}
 			case East:
-				{x: this.x + 1, y: this.y}
+				{x: x + 1, y: y}
 			case West:
-				{x: this.x - 1, y: this.y}
+				{x: x - 1, y: y}
 		};
 	}
 	
 	public function neighbours(): Array<Pos> {
 		return [
-			{x: this.x, y: this.y - 1},
-			{x: this.x, y: this.y + 1},
-			{x: this.x + 1, y: this.y},
-			{x: this.x - 1, y: this.y},
+			{x: x, y: y - 1},
+			{x: x, y: y + 1},
+			{x: x + 1, y: y},
+			{x: x - 1, y: y},
 		];
 	}
+}
+
+inline function pos(x: Int, y: Int): Pos {
+	return {x: x, y: y};
 }
 
 

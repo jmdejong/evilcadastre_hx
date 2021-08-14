@@ -17,45 +17,45 @@ class TestClaim extends utest.Test {
 	}
 	
 	public function testSuccessfullFirstClaim() {
-		Assert.equals(field.owner({x: 11, y: 11}), None);
-		Assert.equals(field.owner(keepLocation), None);
-		Assert.equals(field.get(keepLocation), Entity.Empty);
+		Assert.same(field.owner({x: 11, y: 11}), None);
+		Assert.same(field.owner(keepLocation), None);
+		Assert.same(field.get(keepLocation), Entity.Empty);
 		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
-		Assert.isTrue(turn.runCommand(field, command, new Player("bob")));
-		Assert.isTrue(field.owner(keepLocation).equals(Some(new Player("bob"))));
-		Assert.isTrue(field.owner({x: 11, y: 11}).equals(Some(new Player("bob"))));
-		Assert.isTrue(field.get(keepLocation).equals(Entity.Keep(new Player("bob"))));
-		Assert.equals(field.get({x: 11, y: 11}), Entity.Empty);
-		Assert.equals(field.owner({x: 1, y: 1}), None);
-		Assert.equals(field.get({x: 1, y: 1}), Entity.Empty);
+		assertOk(turn.runCommand(field, command, new Player("bob")));
+		Assert.same(field.owner(keepLocation), Some(new Player("bob")));
+		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("bob")));
+		Assert.same(field.get(keepLocation), Entity.Keep(new Player("bob")));
+		Assert.same(field.get({x: 11, y: 11}), Entity.Empty);
+		Assert.same(field.owner({x: 1, y: 1}), None);
+		Assert.same(field.get({x: 1, y: 1}), Entity.Empty);
 	}
 	
 	public function testUnsuccessfulSecondClaim() {
 		field.set(cadastre.keepLocation({x: 1, y: 1}), Entity.Keep(new Player("bob")));
 		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
-		Assert.isFalse(turn.runCommand(field, command, new Player("bob")));
-		Assert.equals(field.get(keepLocation), Entity.Empty);
-		Assert.equals(field.owner({x: 11, y: 11}), None);
+		assertErr(turn.runCommand(field, command, new Player("bob")));
+		Assert.same(field.get(keepLocation), Entity.Empty);
+		Assert.same(field.owner({x: 11, y: 11}), None);
 	}
 	
 	public function testSuccessfullFirstClaimWithOtherPlayerNearby() {
 		field.set(cadastre.keepLocation({x: 1, y: 1}), Entity.Keep(new Player("alice")));
 		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
-		Assert.isTrue(turn.runCommand(field, command, new Player("bob")));
-		Assert.isTrue(field.owner(keepLocation).equals(Some(new Player("bob"))));
-		Assert.isTrue(field.owner({x: 11, y: 11}).equals(Some(new Player("bob"))));
-		Assert.isTrue(field.get(keepLocation).equals(Entity.Keep(new Player("bob"))));
-		Assert.equals(field.get({x: 11, y: 11}), Entity.Empty);
-		Assert.isTrue(field.owner({x: 1, y: 1}).equals(Some(new Player("alice"))));
-		Assert.equals(field.get({x: 1, y: 1}), Entity.Empty);
+		assertOk(turn.runCommand(field, command, new Player("bob")));
+		Assert.same(field.owner(keepLocation), Some(new Player("bob")));
+		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("bob")));
+		Assert.same(field.get(keepLocation), Entity.Keep(new Player("bob")));
+		Assert.same(field.get({x: 11, y: 11}), Entity.Empty);
+		Assert.same(field.owner({x: 1, y: 1}), Some(new Player("alice")));
+		Assert.same(field.get({x: 1, y: 1}), Entity.Empty);
 	}
 	
 	public function testSuccessfullFirstClaimForClaimedLand() {
 		field.set(cadastre.keepLocation(keepLocation), Entity.Keep(new Player("alice")));
 		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
-		Assert.isFalse(turn.runCommand(field, command, new Player("bob")));
-		Assert.isTrue(field.owner(keepLocation).equals(Some(new Player("alice"))));
-		Assert.isTrue(field.owner({x: 11, y: 11}).equals(Some(new Player("alice"))));
-		Assert.isTrue(field.get(keepLocation).equals(Entity.Keep(new Player("alice"))));
+		assertErr(turn.runCommand(field, command, new Player("bob")));
+		Assert.same(field.owner(keepLocation), Some(new Player("alice")));
+		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("alice")));
+		Assert.same(field.get(keepLocation), Entity.Keep(new Player("alice")));
 	}
 }

@@ -1,11 +1,11 @@
 
-
+import Result;
 
 class Set<T> {
 	
-	var dict: Dict<T, Bool>;
+	var dict: Dict<T, Empty>;
 	
-	private inline function new(dict: Dict<T, Bool>){
+	private inline function new(dict: Dict<T, Empty>){
 		this.dict = dict;
 	}
 	
@@ -13,8 +13,16 @@ class Set<T> {
 		return new Set(Dict.empty());
 	}
 	
+	public static function from<T>(i: Iterable<T>): Set<T> {
+		var s: Set<T> = new Set(Dict.empty());
+		for (item in i){
+			s.add(item);
+		}
+		return s;
+	}
+	
 	public inline function add(elem: T) {
-		this.dict.set(elem, true);
+		this.dict.set(elem, __);
 	}
 	
 	public inline function has(elem: T): Bool {
@@ -23,5 +31,13 @@ class Set<T> {
 	
 	public inline function remove(elem: T): Bool {
 		return this.dict.remove(elem);
+	}
+	
+	public inline function copy(): Set<T> {
+		return new Set(dict.copy());
+	}
+	
+	public inline function isEmpty(): Bool {
+		return dict.isEmpty();
 	}
 }

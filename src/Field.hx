@@ -1,3 +1,5 @@
+import Entity;
+
 
 final class Field {
 	public final size: Pos;
@@ -54,5 +56,27 @@ final class Field {
 	
 	public function ownedBy(pos: Pos, player: Player): Bool {
 		return this.owner(pos).equals(Some(player));
+	}
+	
+	public function paysCost(pos: Pos, cost: Set<Item>, resources: Iterable<Pos>): Bool {
+		var keepLocation: Pos = cadastre.keepLocation(pos);
+		for (resourcePos in resources) {
+			if (!keepLocation.equals(cadastre.keepLocation(resourcePos))) {
+				return false;
+			}
+			switch (this.get(resourcePos)) {
+				case Stockpile(item):
+					if (!cost.remove(item)) {
+						return false;
+					}
+				default:
+					return false;
+			}
+		}
+		return cost.isEmpty();
+	}
+	
+	public function setOwner(pos: Pos, player: Player) {
+		set(cadastre.keepLocation(pos), Keep(player));
 	}
 }

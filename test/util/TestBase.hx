@@ -24,7 +24,7 @@ class TestBase extends utest.Test {
 		Assert.isTrue(Some(Keep(p1)).equals(Some(Keep(p2))));
 	}
 	
-// 	public function testEntityEquality(){
-// 		Assert.equals(Entity.Keep(p1), Entity.Keep(p2));
-// 	}
+	public function testEntityEquality(){
+		Assert.same(Entity.Keep(p1), Entity.Keep(p2));
+	}
 }

@@ -1,4 +1,19 @@
+import Entity;
 
+class UpdateError implements Error {
+	final message: String;
+	public function new(message: String) {
+		this.message = message;
+	}
+	
+	public function msg(): String {
+		return this.message;
+	}
+}
+
+private inline function err(msg: String): Result<Empty, UpdateError> {
+	return Err(new UpdateError(msg));
+}
 
 class Turn {
 	
@@ -8,53 +23,94 @@ class Turn {
 		used = Set.empty();
 	}
 
-	public function runCommand(field: Field, command: Command, player: Player): Bool {
+	public function runCommand(field: Field, command: Command, player: Player): Result<Empty, UpdateError> {
 		var pos = command.pos;
 		if (used.has(pos)){
-			return false;
+			return err("Position has been used already");
 		}
 		var occupant: Entity = field.get(pos);
+		var keepLocation = field.keepLocation(pos);
+		
+		if (command.action != Claim && !field.ownedBy(pos, player)) {
+			return err("Can't perform actions on entity outside your plots (except claim)");
+		}
 		return switch (command.action) {
 			case Claim:
-				var keepLocation = field.keepLocation(pos);
-				if (field.get(keepLocation) == Entity.Empty && field.plotsOwned(player).length == 0) {
+				if (field.get(keepLocation) != Entity.Empty) {
+					err("Keep location not empty");
+				} else if (field.plotsOwned(player).length != 0) {
+					err("Claim can only be used when player doesn't have any plot");
+				} else {
 					field.set(keepLocation, Entity.Keep(player));
 					used.add(keepLocation);
-					true;
-				} else {
-					false;
+					Ok(__);
 				}
-			case Build(entity):
-				if (!field.ownedBy(pos, player) || occupant != Entity.Empty){
-					return false;
+			case Build(entity, resources):
+				if (occupant != Entity.Empty){
+					return err("Can only build on empty positions");
 				}
 				switch (entity) {
-					case Woodcutter if (field.hasNeighbour(pos, Entity.Forest)):
+					case Woodcutter:
+						if (!field.hasNeighbour(pos, Entity.Forest)) {
+							return err("Woodcutter must be built next to forest");
+						}
 						field.set(pos, Entity.Woodcutter);
-						used.add(pos);
-						true;
+					case Farm:
+						var cost = Set.from([Wood]);
+						if (!field.paysCost(pos, cost, resources)){
+							return err("Building resources must exactly match building costs");
+						}
+						field.set(pos, Entity.Farm);
 					default:
-						false;
+						return err("Can't build entity type");
 				}
+				used.add(pos);
+				for (pile in resources) {
+					field.set(pile, Stockpile(NoItem));
+				}
+				Ok(__);
 			case Move(to):
-				if (!field.ownedBy(pos, player) 
-						|| !field.keepLocation(to).equals(field.keepLocation(pos)) 
-						|| field.get(to) != Entity.Empty
-						|| used.has(to)) {
-					return false;
+				if (!field.keepLocation(to).equals(keepLocation)) {
+					return err("Can't move to another plot");
+				}
+				if (field.get(to) != Entity.Empty) {
+					return err("Destination is not empty");
 				}
 				switch (occupant) {
 					case Raider:
 						field.set(to, occupant);
 						field.set(pos, Entity.Empty);
-						used.add(pos);
 						used.add(to);
-						true;
+						Ok(__);
 					default:
-						false;
+						err("Can't build entity type");
 				}
-			default:
-				false;
+			case Produce(pile):
+				if (!field.keepLocation(pile).equals(keepLocation)) {
+					return err("Can't move producted items to another plot");
+				}
+				if (!field.get(pile).equals(Stockpile(NoItem))) {
+					return err("Produced items must be stored in an empty stockpile");
+				}
+				switch (occupant) {
+					case Farm:
+						field.set(pile, Stockpile(Food));
+						Ok(__);
+					case Forest:
+						if (
+								[for (n in pos.neighbours())
+									if (keepLocation.equals(field.keepLocation(n)) && field.get(n).equals(Woodcutter))
+										n
+								].length == 0) {
+							return err("A woodcutter in the same plot is required to cut wood");
+						}
+						field.set(pile, Stockpile(Wood));
+						Ok(__);
+					default:
+						err("Not a production building");
+				}
+			case Attack(dir):
+				err("Attacking is not implemented yet");
 		}
 	}
 

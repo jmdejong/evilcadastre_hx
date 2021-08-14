@@ -6,13 +6,6 @@ interface CadastreShapes {
 	public function keeps(size: Pos): Array<Pos>;
 }
 
-function squareCadastre(size: Int) {
-	return rectangularCadastre({x: size, y: size});
-}
-
-function rectangularCadastre(size: Pos){
-	return new RectanglePlots(size);
-}
 
 private final class RectanglePlots implements CadastreShapes {
 	
