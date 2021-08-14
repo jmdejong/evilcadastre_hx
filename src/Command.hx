@@ -6,6 +6,7 @@ enum Action {
 	Move(to: Pos);
 	Attack(dir: Direction);
 	Produce(stockpile: Pos);
+	Remove;
 }
 
 @:structInit final class Command {

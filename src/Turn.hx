@@ -61,6 +61,9 @@ class Turn {
 							return err("Building resources must exactly match building costs");
 						}
 						field.set(pos, Entity.Farm);
+					case Stockpile(NoItem):
+						field.set(pos, entity);
+						Ok(__);
 					default:
 						return err("Can't build entity type");
 				}
@@ -108,6 +111,14 @@ class Turn {
 						Ok(__);
 					default:
 						err("Not a production building");
+				}
+			case Remove:
+				switch (occupant) {
+					case Farm | Woodcutter | Raider | Stockpile(_):
+						field.set(pos, Empty);
+						Ok(__);
+					default:
+						err("Cant remove entity");
 				}
 			case Attack(dir):
 				err("Attacking is not implemented yet");
