@@ -26,8 +26,13 @@ final class AsciiRenderer {
 		return switch (ent) {
 			case Keep(_): "@";
 			case Raider: "R";
-			case WoodCutter: "W";
+			case Woodcutter: "W";
 			case Empty: ".";
+			case Farm: "F";
+			case Forest: "%";
+			case Stockpile(NoItem): "_";
+			case Stockpile(Wood): "=";
+			case Stockpile(Food): "8";
 		}
 	}
 }
