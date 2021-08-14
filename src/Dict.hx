@@ -6,7 +6,7 @@ import haxe.Unserializer;
 import haxe.ds.StringMap;
 
 
-class Dict<K, V> {
+final class Dict<K, V> {
 	var map: StringMap<V>;
 	
 	private inline function new(map: StringMap<V>){

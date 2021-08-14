@@ -1,6 +1,7 @@
+import js.Browser;
 
 
-class Main {
+class JSMain {
 	static public function main(): Void {
 		var player = new Player("Player1");
 		var field = Field.empty({x: 30, y: 30}, Cadastre.square(5));
@@ -11,6 +12,8 @@ class Main {
 		
 		var out = AsciiRenderer.render(field);
 		
-		Sys.println(out);
+		var pre = Browser.document.createPreElement();
+		pre.textContent = out;
+		Browser.document.body.appendChild(pre);
 	}
 }

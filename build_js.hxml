@@ -1,0 +1,3 @@
+--class-path src/
+--js target/js/evilcadastre.js
+--main JSMain.hx

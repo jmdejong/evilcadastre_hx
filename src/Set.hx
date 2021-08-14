@@ -1,7 +1,7 @@
 
 import Result;
 
-class Set<T> {
+final class Set<T> {
 	
 	var dict: Dict<T, Empty>;
 	

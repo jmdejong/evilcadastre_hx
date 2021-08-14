@@ -1,6 +1,6 @@
 import Entity;
 
-class UpdateError implements Error {
+class UpdateError implements ResultError {
 	final message: String;
 	public function new(message: String) {
 		this.message = message;
@@ -15,7 +15,7 @@ private inline function err(msg: String): Result<Empty, UpdateError> {
 	return Err(new UpdateError(msg));
 }
 
-class Turn {
+final class Turn {
 	
 	var used: Set<Pos>;
 	
