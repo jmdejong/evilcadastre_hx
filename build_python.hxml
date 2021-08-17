@@ -1,0 +1,3 @@
+--class-path src/
+--python target/python/evilcadastre.py
+--main Main.hx

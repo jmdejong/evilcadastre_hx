@@ -28,7 +28,7 @@ class TestBuild extends utest.Test {
 		foodPile = {x: 19, y: 11};
 		field.set(foodPile, Stockpile(Food));
 		emptyPile = {x: 19, y: 12};
-		field.set(emptyPile, Stockpile(NoItem));
+		field.set(emptyPile, Freepile);
 		turn = new Turn();
 	}
 	
@@ -65,7 +65,7 @@ class TestBuild extends utest.Test {
 		var command: Command = {action: Build(Farm, [woodPile]), pos: pos};
 		assertOk(turn.runCommand(field, command, player));
 		Assert.same(field.get(pos), Farm);
-		Assert.same(field.get(woodPile), Stockpile(NoItem));
+		Assert.same(field.get(woodPile), Freepile);
 	}
 	
 	public function testCantBuildFarmWithoutResources() {
@@ -80,7 +80,7 @@ class TestBuild extends utest.Test {
 		var command: Command = {action: Build(Farm, [emptyPile]), pos: pos};
 		assertErr(turn.runCommand(field, command, player));
 		Assert.same(field.get(pos), Empty);
-		Assert.same(field.get(emptyPile), Stockpile(NoItem));
+		Assert.same(field.get(emptyPile), Freepile);
 	}
 	
 	public function testCantBuildFarmWithNonResource() {
@@ -133,8 +133,8 @@ class TestBuild extends utest.Test {
 	
 	public function testCanBuildStockpile() {
 		var pos: Pos = {x: 11, y: 11};
-		var command: Command = {action: Build(Stockpile(NoItem), []), pos: pos};
+		var command: Command = {action: Build(Freepile, []), pos: pos};
 		assertOk(turn.runCommand(field, command, player));
-		Assert.same(field.get(pos), Stockpile(NoItem));
+		Assert.same(field.get(pos), Freepile);
 	}
 }

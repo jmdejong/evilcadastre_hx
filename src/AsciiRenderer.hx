@@ -25,7 +25,7 @@ final class AsciiRenderer {
 			case Empty: ".";
 			case Farm: "F";
 			case Forest: "%";
-			case Stockpile(NoItem): "_";
+			case Freepile: "_";
 			case Stockpile(Wood): "=";
 			case Stockpile(Food): "8";
 		}

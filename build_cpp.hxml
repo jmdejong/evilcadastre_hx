@@ -1,0 +1,3 @@
+--class-path src/
+--cpp target/cpp/bin
+--main Main.hx

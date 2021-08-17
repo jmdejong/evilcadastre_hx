@@ -19,9 +19,9 @@ class TestProduce extends utest.Test {
 		field = Field.empty({x: 30, y: 30}, cadastre);
 		field.setOwner({x: 11, y: 11}, player);
 		pile = {x: 10, y: 10};
-		field.set(pile, Stockpile(NoItem));
+		field.set(pile, Freepile);
 		pile2 = {x: 10, y: 11};
-		field.set(pile2, Stockpile(NoItem));
+		field.set(pile2, Freepile);
 		forest = {x: 12, y: 11};
 		field.set(forest, Forest);
 		field.set({x: 12, y: 12}, Woodcutter);
@@ -47,7 +47,7 @@ class TestProduce extends utest.Test {
 		field.set(forest2, Forest);
 		var command: Command = {action: Produce(pile), pos: forest2};
 		assertErr(turn.runCommand(field, command, player));
-		Assert.same(field.get(pile), Stockpile(NoItem));
+		Assert.same(field.get(pile), Freepile);
 	}
 	
 	public function testCantProduceFoodForSameFarmTwice() {
@@ -55,7 +55,7 @@ class TestProduce extends utest.Test {
 		assertOk(turn.runCommand(field, command, player));
 		var command2: Command = {action: Produce(pile2), pos: farm};
 		assertErr(turn.runCommand(field, command, player));
-		Assert.same(field.get(pile2), Stockpile(NoItem));
+		Assert.same(field.get(pile2), Freepile);
 	}
 	
 	
@@ -67,6 +67,6 @@ class TestProduce extends utest.Test {
 		field.setOwner(woodcutter, player);
 		var command: Command = {action: Produce(pile), pos: forest2};
 		assertErr(turn.runCommand(field, command, player));
-		Assert.same(field.get(pile), Stockpile(NoItem));
+		Assert.same(field.get(pile), Freepile);
 	}
 }

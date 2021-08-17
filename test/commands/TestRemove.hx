@@ -20,7 +20,7 @@ class TestRemove extends utest.Test {
 		field = Field.empty({x: 30, y: 30}, cadastre);
 		field.setOwner({x: 11, y: 11}, player);
 		pile = {x: 10, y: 10};
-		field.set(pile, Stockpile(NoItem));
+		field.set(pile, Freepile);
 		forest = {x: 12, y: 11};
 		field.set(forest, Forest);
 		field.set({x: 12, y: 12}, Woodcutter);

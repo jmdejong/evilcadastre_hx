@@ -36,32 +36,32 @@ final class Turn {
 		}
 		return switch (command.action) {
 			case Claim:
-				if (field.get(keepLocation) != Entity.Empty) {
+				if (field.get(keepLocation) != Empty) {
 					err("Keep location not empty");
 				} else if (field.plotsOwned(player).length != 0) {
 					err("Claim can only be used when player doesn't have any plot");
 				} else {
-					field.set(keepLocation, Entity.Keep(player));
+					field.set(keepLocation, Keep(player));
 					used.add(keepLocation);
 					Ok(__);
 				}
 			case Build(entity, resources):
-				if (occupant != Entity.Empty){
+				if (occupant != Empty){
 					return err("Can only build on empty positions");
 				}
 				switch (entity) {
 					case Woodcutter:
-						if (!field.hasNeighbour(pos, Entity.Forest)) {
+						if (!field.hasNeighbour(pos, Forest)) {
 							return err("Woodcutter must be built next to forest");
 						}
-						field.set(pos, Entity.Woodcutter);
+						field.set(pos, Woodcutter);
 					case Farm:
 						var cost = Set.from([Wood]);
 						if (!field.paysCost(pos, cost, resources)){
 							return err("Building resources must exactly match building costs");
 						}
-						field.set(pos, Entity.Farm);
-					case Stockpile(NoItem):
+						field.set(pos, Farm);
+					case Freepile:
 						field.set(pos, entity);
 						Ok(__);
 					default:
@@ -69,20 +69,20 @@ final class Turn {
 				}
 				used.add(pos);
 				for (pile in resources) {
-					field.set(pile, Stockpile(NoItem));
+					field.set(pile, Freepile);
 				}
 				Ok(__);
 			case Move(to):
 				if (!field.keepLocation(to).equals(keepLocation)) {
 					return err("Can't move to another plot");
 				}
-				if (field.get(to) != Entity.Empty) {
+				if (field.get(to) != Empty) {
 					return err("Destination is not empty");
 				}
 				switch (occupant) {
 					case Raider:
 						field.set(to, occupant);
-						field.set(pos, Entity.Empty);
+						field.set(pos, Empty);
 						used.add(to);
 						Ok(__);
 					default:
@@ -92,7 +92,7 @@ final class Turn {
 				if (!field.keepLocation(pile).equals(keepLocation)) {
 					return err("Can't move producted items to another plot");
 				}
-				if (!field.get(pile).equals(Stockpile(NoItem))) {
+				if (!field.get(pile).equals(Freepile)) {
 					return err("Produced items must be stored in an empty stockpile");
 				}
 				switch (occupant) {
