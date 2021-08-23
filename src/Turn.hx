@@ -31,18 +31,18 @@ final class Turn {
 		var occupant: Entity = field.get(pos);
 		var keepLocation = field.keepLocation(pos);
 		
-		if (command.action != Claim && !field.ownedBy(pos, player)) {
+		if (command.action != Claim && !field.owner(pos).equals(Some(player))) {
 			return err("Can't perform actions on entity outside your plots (except claim)");
 		}
 		return switch (command.action) {
 			case Claim:
-				if (field.get(keepLocation) != Empty) {
+				if (field.owner(pos) != None) {
 					err("Keep location not empty");
 				} else if (field.plotsOwned(player).length != 0) {
 					err("Claim can only be used when player doesn't have any plot");
 				} else {
-					field.set(keepLocation, Keep(player));
-					used.add(keepLocation);
+					field.claim(pos, player);
+// 					used.add(keepLocation);
 					Ok(__);
 				}
 			case Build(entity, resources):

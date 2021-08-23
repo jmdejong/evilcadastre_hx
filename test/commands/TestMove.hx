@@ -58,7 +58,7 @@ class TestMove extends utest.Test {
 	
 	public function testCantStealSomeoneElsesRaider() {
 		var to: Pos = {x: 12, y: 2};
-		field.set(field.keepLocation(to), Keep(new Player("alice")));
+		field.claim(to, new Player("alice"));
 		var command: Command = {action: Action.Move(to), pos: from};
 		assertErr(turn.runCommand(field, command, new Player("alice")));
 		Assert.same(field.get(from), Raider);

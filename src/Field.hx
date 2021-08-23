@@ -34,6 +34,10 @@ final class Field {
 		}
 	}
 	
+	public function claim(pos: Pos, player: Player) {
+		this.set(this.cadastre.keepLocation(pos), Keep(player));
+	}
+	
 	public function set(pos: Pos, entity: Entity){
 		this.tiles.set(pos, entity);
 	}
@@ -55,10 +59,6 @@ final class Field {
 			if (this.get(p).equals(ent))
 				true
 		].length != 0;
-	}
-	
-	public function ownedBy(pos: Pos, player: Player): Bool {
-		return this.owner(pos).equals(Some(player));
 	}
 	
 	public function paysCost(pos: Pos, cost: Set<Item>, resources: Iterable<Pos>): Bool {
@@ -112,11 +112,5 @@ final class Field {
 			entities.set(pos, ent);
 		}
 		return Some(new Field(fieldSize, cadastre, entities));
-// 		switch ([fieldSize, cadastre]) {
-// 			case [Some(fs), Some(c)]:
-// 				return Some(new Field(fs, c, Dict.empty()));
-// 			default:
-// 				return None;
-// 		}
 	}
 }
