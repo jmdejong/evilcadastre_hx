@@ -44,4 +44,13 @@ abstract Cadastre(CadastreShapes) to CadastreShapes {
 	public static function square(size: Int): Cadastre {
 		return new Cadastre(new RectanglePlots({x: size, y: size}));
 	}
+	
+	public static function fromStr(str: String): Option<Cadastre> {
+		return switch (str.partitionTrim(":")){
+			case ["rect", size]:
+				Pos.fromStr(size).map(s -> Cadastre.rectangle(s));
+			case _:
+				None;
+		}
+	}
 }

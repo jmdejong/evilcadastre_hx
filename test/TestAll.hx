@@ -5,7 +5,7 @@ class TestAll {
 	public static function main() {
 		
 		var runner = new Runner();
-		runner.addCases(test.util);
+		runner.addCases(test.misc);
 		runner.addCases(test.commands);
 		Report.create(runner);
 		runner.run();

@@ -1,4 +1,4 @@
-package test.util;
+package test.misc;
 import utest.Assert;
 import Entity;
 

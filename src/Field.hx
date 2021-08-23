@@ -1,4 +1,7 @@
 import Entity;
+using StrUtils;
+using OptionTools;
+using Utils;
 
 
 final class Field {
@@ -78,5 +81,42 @@ final class Field {
 	
 	public function setOwner(pos: Pos, player: Player) {
 		set(cadastre.keepLocation(pos), Keep(player));
+	}
+	
+	public function serialize() {
+		return "";
+	}
+	
+	public static function deserialize(ser: String): Option<Field> {
+		var headers: Dict<String, String> = Dict.empty();
+		var lines: Array<String> = [];
+		var readingBody = false;
+		for (part in ser.split(";")) {
+			var l = part.trim();
+			if (l == "") {
+				readingBody = true;
+			} else if (readingBody) {
+				lines.push(l);
+			} else {
+				var header = l.partitionTrim(":");
+				headers.set(header[0], header[1]);
+			}
+		};
+		var fieldSize: Pos = headers.get("field_size").andThen(Pos.fromStr).tryOption();
+		var cadastre: Cadastre = headers.get("cadastre").andThen(Cadastre.fromStr).tryOption();
+		var entities: Dict<Pos, Entity> = Dict.empty();
+		for (line in lines){
+			var p = line.partitionTrim(":");
+			var pos: Pos = Pos.fromStr(p[0]).tryOption();
+			var ent: Entity = Entity.fromStr(p[1]).tryOption();
+			entities.set(pos, ent);
+		}
+		return Some(new Field(fieldSize, cadastre, entities));
+// 		switch ([fieldSize, cadastre]) {
+// 			case [Some(fs), Some(c)]:
+// 				return Some(new Field(fs, c, Dict.empty()));
+// 			default:
+// 				return None;
+// 		}
 	}
 }

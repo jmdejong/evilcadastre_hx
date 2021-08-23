@@ -34,22 +34,27 @@ abstract Entity(Entity_) from Entity_ to Entity_ {
 	
 	public function str(): String {
 		return switch (this) {
-			case Keep(owner): 'keep$$$owner';
+			case Keep(owner): "keep:" + owner;
 			case Raider | Woodcutter | Farm | Forest:
 				this.getName().toLowerCase();
 			case Freepile: "stockpile";
-			case Stockpile(item): 'stockpile$$$item';
+			case Stockpile(item): "stockpile:" + item;
 			case Empty: "_";
 		}
 	}
 	
 	public static function fromStr(str: String): Option<Entity> {
-		var parts = str.split("$");
-		if (parts.length == 0) return None;
-		return Some(switch (parts[0]) {
-			case "raider": Raider;
-			case "woodcutter": Woodcutter;
-			case "farm": Farm;
+		var parts = str.split(":");
+		return Some(switch (parts) {
+			case ["raider"]: Raider;
+			case ["woodcutter"]: Woodcutter;
+			case ["farm"]: Farm;
+			case ["forest"]: Forest;
+			case ["stockpile"]: Freepile;
+			case ["stockpile", "wood"]: Stockpile(Wood);
+			case ["stockpile", "food"]: Stockpile(Food);
+			case ["keep", name]: Keep(new Player(name));
+			case ["_"]: Empty;
 			default:
 				return None;
 		});

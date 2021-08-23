@@ -40,6 +40,14 @@ enum Direction {North; East; South; West;}
 			{x: x - 1, y: y},
 		];
 	}
+	
+	public static function fromStr(str: String): Option<Pos> {
+		var values: Array<Int> = str.partitionTrim(",").map(Std.parseInt);
+		if (values.length != 2 || values.contains(null)){
+			return None;
+		}
+		return Some(pos(values[0], values[1]));
+	}
 }
 
 inline function pos(x: Int, y: Int): Pos {
