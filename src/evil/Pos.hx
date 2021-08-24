@@ -1,3 +1,4 @@
+package evil;
 
 
 enum Direction {North; East; South; West;}

@@ -1,4 +1,12 @@
 import haxe.ds.Option;
-import Result;
 import Util;
-import Pos;
+import tiph.Result;
+import tiph.Dict;
+import evil.Pos;
+import evil.Entity;
+import evil.Player;
+import evil.Cadastre;
+import evil.Field;
+import evil.Turn;
+import evil.Command;
+

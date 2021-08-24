@@ -1,6 +1,5 @@
 package test.commands;
 import utest.Assert;
-import Entity;
 
 class TestClaim extends utest.Test {
 	
@@ -21,7 +20,7 @@ class TestClaim extends utest.Test {
 		Assert.same(field.owner({x: 11, y: 11}), None);
 		Assert.same(field.owner(keepLocation), None);
 		Assert.same(field.get(keepLocation), Empty);
-		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
+		var command: Command = {action: Action.Claim, pos: keepLocation};
 		assertOk(turn.runCommand(field, command, new Player("bob")));
 		Assert.same(field.owner(keepLocation), Some(new Player("bob")));
 		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("bob")));
@@ -33,7 +32,7 @@ class TestClaim extends utest.Test {
 	
 	public function testUnsuccessfulSecondClaim() {
 		field.set(cadastre.keepLocation({x: 1, y: 1}), Keep(new Player("bob")));
-		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
+		var command: Command = {action: Action.Claim, pos: keepLocation};
 		assertErr(turn.runCommand(field, command, new Player("bob")));
 		Assert.same(field.get(keepLocation), Empty);
 		Assert.same(field.owner({x: 11, y: 11}), None);
@@ -41,7 +40,7 @@ class TestClaim extends utest.Test {
 	
 	public function testSuccessfullFirstClaimWithOtherPlayerNearby() {
 		field.set(cadastre.keepLocation({x: 1, y: 1}), Keep(new Player("alice")));
-		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
+		var command: Command = {action: Action.Claim, pos: keepLocation};
 		assertOk(turn.runCommand(field, command, new Player("bob")));
 		Assert.same(field.owner(keepLocation), Some(new Player("bob")));
 		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("bob")));
@@ -53,7 +52,7 @@ class TestClaim extends utest.Test {
 	
 	public function testSuccessfullFirstClaimForClaimedLand() {
 		field.set(cadastre.keepLocation(keepLocation), Keep(new Player("alice")));
-		var command: Command = {action: Command.Action.Claim, pos: keepLocation};
+		var command: Command = {action: Action.Claim, pos: keepLocation};
 		assertErr(turn.runCommand(field, command, new Player("bob")));
 		Assert.same(field.owner(keepLocation), Some(new Player("alice")));
 		Assert.same(field.owner({x: 11, y: 11}), Some(new Player("alice")));

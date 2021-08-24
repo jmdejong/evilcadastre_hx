@@ -1,3 +1,4 @@
+package evil;
 
 @:expose
 final class AsciiRenderer {

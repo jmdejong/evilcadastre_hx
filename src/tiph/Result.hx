@@ -1,3 +1,4 @@
+package tiph;
 
 interface ResultError {
 	public function msg(): String;

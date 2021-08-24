@@ -1,4 +1,4 @@
-
+package evil;
 
 
 final class World {

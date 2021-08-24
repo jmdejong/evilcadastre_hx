@@ -1,4 +1,5 @@
-
+package tiph;
+import haxe.ds.Option;
 
 class UnwrapException extends haxe.Exception {}
 
@@ -24,5 +25,15 @@ final class OptionTools {
 			case None:
 				throw new UnwrapException("Unwrapping option with None value");
 		}
+	}
+	
+	
+	macro public static function tryOption<T>(e: ExprOf<Option<T>>){
+		return macro 
+			switch ($e) {
+				case Some(t): t;
+				case None: return None;
+			}
+		
 	}
 }

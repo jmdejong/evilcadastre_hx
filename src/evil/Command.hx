@@ -1,4 +1,5 @@
-import Pos;
+package evil;
+import evil.Pos;
 
 enum Action {
 	Claim;

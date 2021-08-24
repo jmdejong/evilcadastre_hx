@@ -1,6 +1,5 @@
 package test.misc;
 import utest.Assert;
-import Entity;
 
 class TestBase extends utest.Test {
 

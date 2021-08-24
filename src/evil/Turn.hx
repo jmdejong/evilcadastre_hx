@@ -1,4 +1,5 @@
-import Entity;
+package evil;
+import evil.Entity;
 
 class UpdateError implements ResultError {
 	final message: String;

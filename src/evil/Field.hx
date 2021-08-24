@@ -1,7 +1,6 @@
-import Entity;
-using StrUtils;
-using OptionTools;
-using Utils;
+package evil;
+import evil.Entity;
+
 
 
 final class Field {

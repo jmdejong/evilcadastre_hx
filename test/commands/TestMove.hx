@@ -1,6 +1,5 @@
 package test.commands;
 import utest.Assert;
-import Entity;
 
 class TestMove extends utest.Test {
 

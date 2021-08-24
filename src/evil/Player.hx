@@ -1,3 +1,4 @@
+package evil;
 
 
 abstract Player(String) {

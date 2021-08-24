@@ -1,2 +1,2 @@
 --class-path src/
---run Main
+--run evil.Main

@@ -1,3 +1,4 @@
+package evil;
 import js.Browser;
 
 
