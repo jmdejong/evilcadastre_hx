@@ -44,15 +44,21 @@ class TestField extends utest.Test {
 	}
 	
 	public function testReSerialize() {
-		var field: Field = Field.empty(pos(50, 50), Cadastre.square(10));
-		field.claim(pos(3, 3), new Player("bob"));
-		field.set(pos(8,8), Raider);
-		field.set(pos(1,7), Forest);
-		field.set(pos(15,2), Forest);
-		var ser = field.serialize();
-		var des = Field.deserialize(ser);
+		var original: Field = Field.empty(pos(50, 50), Cadastre.square(10));
+		original.claim(pos(3, 3), new Player("bob"));
+		original.set(pos(8,8), Raider);
+		original.set(pos(1,7), Forest);
+		original.set(pos(15,2), Forest);
+		var ser = original.serialize();
+		trace(ser);
+		var field = switch (Field.deserialize(ser)) {
+			case Some(f): f;
+			case None: 
+				Assert.fail("Field not deserializable");
+				return;
+		};
 		Assert.same(field.get(pos(0, 0)), Empty);
-		Assert.same(field.get(pos(3, 3)), Raider);
+		Assert.same(field.get(pos(8, 8)), Raider);
 		Assert.same(field.get(pos(1, 7)), Forest);
 		Assert.same(field.get(pos(15, 2)), Forest);
 		Assert.same(field.owner(pos(0,0)), Some(new Player("bob")));

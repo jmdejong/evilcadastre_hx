@@ -28,7 +28,7 @@ final class OptionTools {
 	}
 	
 	
-	macro public static function tryOption<T>(e: ExprOf<Option<T>>){
+	macro public static function trySome<T>(e: ExprOf<Option<T>>){
 		return macro 
 			switch ($e) {
 				case Some(t): t;

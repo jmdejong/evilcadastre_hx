@@ -5,6 +5,8 @@ interface CadastreShapes {
 	public function keepLocation(p: Pos): Pos;
 	
 	public function keeps(size: Pos): Array<Pos>;
+	
+	public function toStr(): String;
 }
 
 
@@ -31,9 +33,14 @@ private final class RectanglePlots implements CadastreShapes {
 					keepLocation(plot_size.mult({x: x, y: y}))
 		];
 	}
+	
+	
+	public function toStr(): String {
+		return "rect: " + plot_size.toStr();
+	}
 }
 
-@:forward(keepLocation, keeps)
+@:forward(keepLocation, keeps, toStr)
 abstract Cadastre(CadastreShapes) to CadastreShapes {
 	inline public function new(shapes: CadastreShapes) {
 		this = shapes;

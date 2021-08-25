@@ -49,6 +49,10 @@ enum Direction {North; East; South; West;}
 		}
 		return Some(pos(values[0], values[1]));
 	}
+	
+	public function toStr(): String {
+		return '$x,$y';
+	}
 }
 
 inline function pos(x: Int, y: Int): Pos {

@@ -83,7 +83,9 @@ final class Field {
 	}
 	
 	public function serialize() {
-		return "";
+		return 'field_size: ${this.size.toStr()};\ncadastre: ${this.cadastre.toStr()};\n;\n' + [
+			for (pos in this.tiles.keys()) pos.toStr() + ": " + this.get(pos).toStr()
+		].join(";\n");
 	}
 	
 	public static function deserialize(ser: String): Option<Field> {
@@ -101,13 +103,13 @@ final class Field {
 				headers.set(header[0], header[1]);
 			}
 		};
-		var fieldSize: Pos = headers.get("field_size").andThen(Pos.fromStr).tryOption();
-		var cadastre: Cadastre = headers.get("cadastre").andThen(Cadastre.fromStr).tryOption();
+		var fieldSize: Pos = headers.get("field_size").andThen(Pos.fromStr).trySome();
+		var cadastre: Cadastre = headers.get("cadastre").andThen(Cadastre.fromStr).trySome();
 		var entities: Dict<Pos, Entity> = Dict.empty();
 		for (line in lines){
 			var p = line.partitionTrim(":");
-			var pos: Pos = Pos.fromStr(p[0]).tryOption();
-			var ent: Entity = Entity.fromStr(p[1]).tryOption();
+			var pos: Pos = Pos.fromStr(p[0]).trySome();
+			var ent: Entity = Entity.fromStr(p[1]).trySome();
 			entities.set(pos, ent);
 		}
 		return Some(new Field(fieldSize, cadastre, entities));

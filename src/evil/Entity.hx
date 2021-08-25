@@ -33,7 +33,7 @@ abstract Entity(Entity_) from Entity_ to Entity_ {
 		return Keep(player);
 	}
 	
-	public function str(): String {
+	public function toStr(): String {
 		return switch (this) {
 			case Keep(owner): "keep:" + owner;
 			case Raider | Woodcutter | Farm | Forest:

@@ -18,7 +18,7 @@ class TestEntity extends utest.Test {
 		];
 		
 		for (entity in entities) {
-			var ser: String = entity.str();
+			var ser: String = entity.toStr();
 			var deser: Option<Entity> = Entity.fromStr(ser);
 			Assert.same(Some(entity), deser);
 		}
