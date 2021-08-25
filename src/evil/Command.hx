@@ -41,6 +41,22 @@ enum Action {
 		}
 		return Some({pos: pos, action: action});
 	}
+	public function toStr(): String {
+		var p = pos.toStr();
+		var a = switch (action) {
+			case Claim: "claim";
+			case Build(ent, resources):
+				"build:" + ent.toStr() + "#" + [for (resource in resources) resource.toStr()].join("#");
+			case Move(to):
+				"move:" + to.toStr();
+			case Attack(dir):
+				"attack:" + DirectionTools.toStr(dir);
+			case Produce(stockpile):
+				"produce:" + stockpile.toStr();
+			case Remove: "remove";
+		}
+		return '$p: $a';
+	}
 }
 
 @:structInit final class Commands {
@@ -55,6 +71,10 @@ enum Action {
 	}
 	
 	public function toStr(): String {
-		return "";
+		var ef: EvilFormat = {
+			headers: Dict.empty(),
+			items: [for (command in commands) command.toStr()]
+		};
+		return ef.toStr();
 	}
 }
