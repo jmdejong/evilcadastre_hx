@@ -2,4 +2,6 @@
 -cp test
 --library utest
 -D UTEST_PRINT_TESTS
+--macro nullSafety("evil", Strict)
+--macro nullSafety("esloph", Strict)
 --run TestAll

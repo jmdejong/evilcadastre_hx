@@ -18,6 +18,16 @@ final class Dict<K, V> {
 		return new Dict(new StringMap());
 	}
 	
+	@:nullSafety(Off)
+	public static function fromMap<K, V>(map: Map<K, V>): Dict<K, V> {
+		var dict = Dict.empty();
+		for (key in map.keys()) {
+			dict.set(key, map.get(key));
+		}
+		return dict;
+	}
+	
+	@:nullSafety(Off)
 	public function get(key: K): Option<V> {
 		var keyStr = Serializer.run(key);
 		return if (!map.exists(keyStr)){

@@ -16,12 +16,7 @@ class TestField extends utest.Test {
 		12,15 : forest
 		;9, 11 :farm;
 		";
-		var field = switch (Field.deserialize(ser)) {
-			case Some(f): f;
-			case None: 
-				Assert.fail("Field not deserializable");
-				return;
-		};
+		var field = Field.fromStr(ser).unwrap();
 		Assert.same(field.get(pos(0, 0)), Raider);
 		Assert.same(field.get(pos(0, 1)), Empty);
 		Assert.same(field.get(pos(5, 5)), Keep(new Player("bob")));
@@ -43,13 +38,7 @@ class TestField extends utest.Test {
 		original.set(pos(1,7), Forest);
 		original.set(pos(15,2), Forest);
 		var ser = original.serialize();
-		trace(ser);
-		var field = switch (Field.deserialize(ser)) {
-			case Some(f): f;
-			case None: 
-				Assert.fail("Field not deserializable");
-				return;
-		};
+		var field = Field.fromStr(ser).unwrap();
 		Assert.same(field.get(pos(0, 0)), Empty);
 		Assert.same(field.get(pos(8, 8)), Raider);
 		Assert.same(field.get(pos(1, 7)), Forest);

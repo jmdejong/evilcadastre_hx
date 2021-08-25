@@ -23,4 +23,8 @@ class TestEntity extends utest.Test {
 			Assert.same(Some(entity), deser);
 		}
 	}
+	
+	public function testStockpileDeserialization() {
+		Assert.same(Some(Stockpile(Wood)), Entity.fromStr("stockpile:wood"));
+	}
 }

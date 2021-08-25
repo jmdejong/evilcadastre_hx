@@ -12,4 +12,11 @@ class TestDict extends utest.Test {
 		Assert.isTrue(d.getOr({x: 3, y: 3}, false));
 		Assert.isFalse(d.getOr({x: 2, y: 3}, false));
 	}
+	
+	public function testFromMap() {
+		var d: Dict<Pos, String> = Dict.fromMap([pos(1,2) => "hello", pos(5, 8) => "world"]);
+		Assert.same(d.get(pos(1, 2)), Some("hello"));
+		Assert.same(d.get(pos(5, 8)), Some("world"));
+		Assert.same(d.get(pos(3, 3)), None);
+	}
 }

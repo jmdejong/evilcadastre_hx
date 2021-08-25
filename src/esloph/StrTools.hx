@@ -1,15 +1,8 @@
 package esloph;
 
-using esloph.StrTools;
+using StringTools;
 
-final class StrTools{
-	static final spacesLeft = ~/^[ \r\n\t]*/;
-	static final spacesRight = ~/[ \r\n\t]*$/;
-	
-	
-	public static function trim(str: String): String {
-		return spacesRight.replace(spacesLeft.replace(str, ""), "");
-	}
+final class StrTools {
 	
 	public static function partition(str: String, delimiter: String): Array<String> {
 		var idx = str.indexOf(delimiter);
@@ -20,7 +13,7 @@ final class StrTools{
 	}
 	
 	public static function partitionTrim(str: String, delimiter: String): Array<String> {
-		var p = str.partition(delimiter);
+		var p = StrTools.partition(str, delimiter);
 		return [p[0].trim(), p[1].trim()];
 	}
 }

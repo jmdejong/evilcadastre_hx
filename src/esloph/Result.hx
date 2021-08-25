@@ -1,5 +1,5 @@
 package esloph;
-
+import esloph.OptionTools;
 
 interface ResultError {
 	public function msg(): String;
@@ -24,6 +24,22 @@ final class ResultTools {
 			case Ok(v): "";
 			case Err(e): e.msg();
 		}
+	}
+	
+	public static function unwrap<S, E: ResultError>(r: Result<S, E>): S {
+		return switch (r) {
+			case Ok(s): s;
+			case Err(e):
+				throw new UnwrapException('Unwrapping result with Err(${e.msg()})');
+		}
+	}
+	
+	macro public static function tryOk<T, E: ResultError>(e: ExprOf<Result<T, E>>){
+		return macro 
+			switch ($e) {
+				case Ok(t): t;
+				case Err(e): return Err(e);
+			}
 	}
 }
 

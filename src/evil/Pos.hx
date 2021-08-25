@@ -3,6 +3,27 @@ package evil;
 
 enum Direction {North; East; South; West;}
 
+final class DirectionTools {
+	public static function fromStr(str: String): Option<Direction> {
+		return switch (str.trim()) {
+			case "north": Some(North);
+			case "south": Some(South);
+			case "east": Some(East);
+			case "west": Some(West);
+			case _: None;
+		};
+	}
+	
+	public static function toStr(dir: Direction): String {
+		return switch (dir) {
+			case North: "north";
+			case South: "south";
+			case East: "east";
+			case West: "west";
+		}
+	}
+}
+
 @:structInit final class Pos {
 	public final x: Int;
 	public final y: Int;
@@ -42,6 +63,7 @@ enum Direction {North; East; South; West;}
 		];
 	}
 	
+	@:nullSafety(Off)
 	public static function fromStr(str: String): Option<Pos> {
 		var values: Array<Int> = str.partitionTrim(",").map(Std.parseInt);
 		if (values.length != 2 || values.contains(null)){

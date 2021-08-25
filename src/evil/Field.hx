@@ -1,5 +1,6 @@
 package evil;
 import evil.Entity;
+import evil.ParseError;
 
 
 
@@ -82,36 +83,31 @@ final class Field {
 		set(cadastre.keepLocation(pos), Keep(player));
 	}
 	
+	public static function fromStr(s: String): Result<Field, ParseError> {
+		var ef = EvilFormat.fromStr(s);
+		var fieldSize: Pos = ef.headers.get("field_size")
+			.andThen(Pos.fromStr)
+			.toResult(parseErr("failed to get field size"))
+			.tryOk();
+		var cadastre: Cadastre = ef.headers.get("cadastre")
+			.andThen(Cadastre.fromStr)
+			.toResult(parseErr("failed to get cadastre"))
+			.tryOk();
+		var entities: Dict<Pos, Entity> = Dict.empty();
+		for (line in ef.items){
+			var p = line.partitionTrim(":");
+			var pos: Pos = Pos.fromStr(p[0]).toResult(parseErr('failed to read pos in $line')).tryOk();
+			var ent: Entity = Entity.fromStr(p[1]).toResult(parseErr('failed to read entity in $line')).tryOk();
+			entities.set(pos, ent);
+		}
+		return Ok(new Field(fieldSize, cadastre, entities));
+	}
+	
 	public function serialize() {
 		return 'field_size: ${this.size.toStr()};\ncadastre: ${this.cadastre.toStr()};\n;\n' + [
 			for (pos in this.tiles.keys()) pos.toStr() + ": " + this.get(pos).toStr()
 		].join(";\n");
 	}
 	
-	public static function deserialize(ser: String): Option<Field> {
-		var headers: Dict<String, String> = Dict.empty();
-		var lines: Array<String> = [];
-		var readingBody = false;
-		for (part in ser.split(";")) {
-			var l = part.trim();
-			if (l == "") {
-				readingBody = true;
-			} else if (readingBody) {
-				lines.push(l);
-			} else {
-				var header = l.partitionTrim(":");
-				headers.set(header[0], header[1]);
-			}
-		};
-		var fieldSize: Pos = headers.get("field_size").andThen(Pos.fromStr).trySome();
-		var cadastre: Cadastre = headers.get("cadastre").andThen(Cadastre.fromStr).trySome();
-		var entities: Dict<Pos, Entity> = Dict.empty();
-		for (line in lines){
-			var p = line.partitionTrim(":");
-			var pos: Pos = Pos.fromStr(p[0]).trySome();
-			var ent: Entity = Entity.fromStr(p[1]).trySome();
-			entities.set(pos, ent);
-		}
-		return Some(new Field(fieldSize, cadastre, entities));
-	}
+
 }

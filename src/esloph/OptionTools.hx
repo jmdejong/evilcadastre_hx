@@ -1,5 +1,6 @@
 package esloph;
 import haxe.ds.Option;
+import esloph.Result;
 
 class UnwrapException extends haxe.Exception {}
 
@@ -34,6 +35,16 @@ final class OptionTools {
 				case Some(t): t;
 				case None: return None;
 			}
-		
+	}
+	
+	public static function allSome<T>(a: Array<Option<T>>): Option<Array<T>> {
+		return Some([for (x in a) OptionTools.trySome(x)]);
+	}
+	
+	public static function toResult<T, E: ResultError>(o: Option<T>, err: E): Result<T, E> {
+		return switch (o) {
+			case Some(s): Ok(s);
+			case None: Err(err);
+		}
 	}
 }
