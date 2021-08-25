@@ -1,7 +1,7 @@
 import haxe.ds.Option;
-import tiph.Result;
+import eloph.Result;
 import evil.Pos;
-using tiph.StrUtils;
-using tiph.OptionTools;
-using tiph.Dict;
-using tiph.Set;
+using eloph.StrUtils;
+using eloph.OptionTools;
+using eloph.Dict;
+using eloph.Set;

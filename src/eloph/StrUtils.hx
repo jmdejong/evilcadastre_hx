@@ -1,6 +1,6 @@
-package tiph;
+package eloph;
 
-using tiph.StrUtils;
+using eloph.StrUtils;
 
 final class StrUtils{
 	static final spacesLeft = ~/^[ \r\n\t]*/;

@@ -1,6 +1,6 @@
-package tiph;
+package eloph;
 
-import tiph.Result;
+import eloph.Result;
 
 final class Set<T> {
 	

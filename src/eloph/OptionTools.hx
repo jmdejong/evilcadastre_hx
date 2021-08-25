@@ -1,4 +1,4 @@
-package tiph;
+package eloph;
 import haxe.ds.Option;
 
 class UnwrapException extends haxe.Exception {}

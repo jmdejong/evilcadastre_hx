@@ -1,4 +1,4 @@
-package tiph;
+package eloph;
 
 
 import haxe.ds.Option;

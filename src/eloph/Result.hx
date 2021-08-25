@@ -1,4 +1,4 @@
-package tiph;
+package eloph;
 
 interface ResultError {
 	public function msg(): String;
