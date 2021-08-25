@@ -1,6 +1,6 @@
-package eloph;
+package esloph;
 
-using eloph.StrUtils;
+using esloph.StrUtils;
 
 final class StrUtils{
 	static final spacesLeft = ~/^[ \r\n\t]*/;

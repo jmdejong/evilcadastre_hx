@@ -1,7 +1,7 @@
 import haxe.ds.Option;
 import Util;
-import eloph.Result;
-import eloph.Dict;
+import esloph.Result;
+import esloph.Dict;
 import evil.Pos;
 import evil.Entity;
 import evil.Player;

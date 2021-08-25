@@ -1,7 +1,7 @@
 import haxe.ds.Option;
-import eloph.Result;
+import esloph.Result;
 import evil.Pos;
-using eloph.StrUtils;
-using eloph.OptionTools;
-using eloph.Dict;
-using eloph.Set;
+using esloph.StrUtils;
+using esloph.OptionTools;
+using esloph.Dict;
+using esloph.Set;

@@ -1,4 +1,4 @@
-package eloph;
+package esloph;
 
 interface ResultError {
 	public function msg(): String;
