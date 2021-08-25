@@ -2,13 +2,6 @@ package test.misc;
 import utest.Assert;
 
 class TestField extends utest.Test {
-	
-// 	public function testEmptySerialize() {
-// 		var cadastre: Cadastre = Cadastre.square(10);
-// 		var field: Field = Field.empty({x: 30, y: 30}, cadastre);
-// 		var ser: String = Field.serialize();
-// 		
-// 	}
 
 	public function testDeserialize() {
 		var ser = "

@@ -9,9 +9,5 @@ class TestAll {
 		runner.addCases(test.commands);
 		Report.create(runner);
 		runner.run();
-// 		utest.UTest.run([
-// 			new TestUtest(),
-// 			new TestDict()
-// 		]);
 	}
 }

@@ -34,9 +34,10 @@ class TestBase extends utest.Test {
 // 		Assert.equals(k1, k2);
 	}
 	
-// 	public function testOptionTry() {
-// 		var o: Option<String> = Some("abc");
-// 		var s = o.trySome();
-// 		Assert.same(s, "abc");
-// 	}
+	public function testOptionTry(){
+		var o: Option<String> = Some("abc");
+		var s = o.trySome();
+		Assert.same(s, "abc");
+		return None;
+	}
 }
