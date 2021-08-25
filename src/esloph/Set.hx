@@ -1,5 +1,4 @@
 package esloph;
-
 import esloph.Result;
 
 final class Set<T> {
