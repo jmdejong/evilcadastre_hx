@@ -16,6 +16,7 @@ class TestUtest extends utest.Test {
 		Assert.isFalse(Type.enumEq(Some(true), Some(false)));
 		Assert.notEquals(Some(true), Some(false));
 		Assert.notEquals(Some(true), Some(true)); // this equality is not by value
+		Assert.same(Some(true), Some(true));
 	}
 	
 	public function testStringEquality() {

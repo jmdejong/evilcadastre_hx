@@ -65,7 +65,7 @@ final class DirectionTools {
 	
 	@:nullSafety(Off)
 	public static function fromStr(str: String): Option<Pos> {
-		var values: Array<Int> = str.partitionTrim(",").map(Std.parseInt);
+		var values: Array<Null<Int>> = str.partitionTrim(",").map(Std.parseInt);
 		if (values.length != 2 || values.contains(null)){
 			return None;
 		}
